@@ -40,8 +40,10 @@ def callback_query(call):
 
 @bot.message_handler(commands=['remote'])
 def warehouse(message):
-    remote = service.get_remote()
-    bot.send_message(message.chat.id, '\n'.join([x.get('name') for x in remote]))
+    remote = '\n'.join([x.get('name') for x in service.get_remote()])
+    if not remote:
+        remote = 'Удаленный склад пуст'
+    bot.send_message(message.chat.id, remote)
 
 @bot.message_handler(content_types=['document'])
 def upload(message):
